@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  div.contacts
+    table
+      tr
+        th №
+        th Name
+      each val, index in data
+        tr(id=`row${index+1}` onclick=`show(${index+1})`)
+          td= index+1
+          td= val.Name
+      else
+        tr
+          td(colspan=2)
+            a(href='http://localhost:3000/oauth') You need to authenticate to load the table
+
+  div.info
+    each val, index in data
+      div(id=`data${index+1}`)
+        h3= `${val.Name}'s info:'`
+        p= `Email: ${val.Email}`
+        p= `Phone: ${val.Phone}`
+        p= `Title: ${val.Title}`
+
+  script.
+    let id;
+    function show(i) {
+      console.log(typeof i)
+      if(id && id !== i) {
+        document.getElementById(`row${id}`).removeAttribute('style');
+        //document.getElementById(`data${id}`).style.display = 'none';
+        document.getElementById(`data${id}`).removeAttribute('style');
+
+      }
+      id = i;
+      document.getElementById(`row${i}`).style.background = 'lightgray';
+      document.getElementById(`data${i}`).style.display = 'block';
+    }
